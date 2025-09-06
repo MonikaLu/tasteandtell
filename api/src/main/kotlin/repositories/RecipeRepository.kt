@@ -19,7 +19,7 @@ object RecipeRepository {
             ),
             instructions = listOf(
                 Instruction(
-                1, "Stek brødet", "test"
+                "1", 1, "test", "d"
             )
             )
         ),
@@ -36,7 +36,7 @@ object RecipeRepository {
             ),
             instructions = listOf(
                 Instruction(
-                    1, "Stek brødet", "test"
+                    "1", 2, "test", "d"
                 )
             )
         ),
@@ -44,7 +44,7 @@ object RecipeRepository {
 
     fun allRecipes(): List<Recipe> = recipes
 
-    fun recipeById(id: String): Recipe? = recipes.find{ it.id == id }
+    fun recipeById(id: String?): Recipe? = recipes.find{ it.id == id }
 
     fun addRecipe(recipe: Recipe) {
         if (recipeById(recipe.id) != null) {

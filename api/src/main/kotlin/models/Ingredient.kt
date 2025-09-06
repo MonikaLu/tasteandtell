@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 data class Ingredient(
     val id: String,
     val name: String,
-    val description: String,
+    val description: String? = null,
     val amount: Int,
 )

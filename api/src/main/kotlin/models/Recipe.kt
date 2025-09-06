@@ -4,13 +4,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Recipe(
-    val id: String,
+    val id: String? = null,
     val title: String,
-    val description: String,
-    val coverImageUrl: String?,
-    val createdAt: String,
-    val updatedAt: String?,
+    val description: String? = null,
+    val coverImageUrl: String? = null,
+    val createdAt: String? = null,
+    val updatedAt: String? = null,
     val authorId: String,
-val ingredients: List<Ingredient>,
+    val ingredients: List<Ingredient>,
     val instructions: List<Instruction>
     )
