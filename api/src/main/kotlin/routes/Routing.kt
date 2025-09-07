@@ -77,5 +77,18 @@ fun Route.recipeRoutes() {
                     call.respond(HttpStatusCode.BadRequest)
                 }
             }
+
+            delete  ("/{id}") {
+                val recipeId = call.parameters["id"]
+                if (recipeId == null) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@delete
+                }
+                if (RecipeRepository.removeRecipe(recipeId)) {
+                    call.respond(HttpStatusCode.NoContent)
+                } else {
+                    call.respond(HttpStatusCode.NotFound)
+                }
+            }
         }
 }

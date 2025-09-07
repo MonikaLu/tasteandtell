@@ -52,4 +52,10 @@ object RecipeRepository {
         }
         recipes.add(recipe)
     }
+
+    fun removeRecipe(recipeId: String): Boolean {
+        return recipes.removeIf {
+            it.id == recipeId
+        }
+    }
 }
