@@ -14,7 +14,7 @@ object RecipeRepository {
             coverImageUrl = "",
             ingredients = listOf(
                 Ingredient(
-                "1", "Bread", "testing", 1
+                "1", "Bread", "testing"
             )
             ),
             instructions = listOf(
@@ -31,7 +31,7 @@ object RecipeRepository {
             coverImageUrl = "",
             ingredients = listOf(
                 Ingredient(
-                    "1", "Bread", "testing", 1
+                    "1", "Bread", "testing"
                 )
             ),
             instructions = listOf(
@@ -53,7 +53,7 @@ object RecipeRepository {
         recipes.add(recipe)
     }
 
-    fun removeRecipe(recipeId: String): Boolean {
+    fun deleteRecipe(recipeId: String): Boolean {
         return recipes.removeIf {
             it.id == recipeId
         }

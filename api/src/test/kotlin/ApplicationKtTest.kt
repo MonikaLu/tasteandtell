@@ -25,7 +25,7 @@ class ApplicationKtTest {
                 updatedAt = "2024-1-2",
                 authorId = "1",
                 coverImageUrl = "",
-                ingredients = listOf(Ingredient("1", "Bread", "testing", 1)),
+                ingredients = listOf(Ingredient("1", "Bread", "testing")),
                 instructions = listOf(Instruction("1", 2, "test", "d")),
             )
 

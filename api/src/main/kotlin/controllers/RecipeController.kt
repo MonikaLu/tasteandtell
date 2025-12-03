@@ -1,50 +1,41 @@
-package com.example.routes
+package com.example.controllers
 
 import com.example.models.Recipe
-import com.example.repositories.RecipeRepository
+import com.example.services.RecipeService
 import io.ktor.http.*
-import io.ktor.server.engine.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import java.time.LocalDateTime
-import java.util.*
 import kotlinx.serialization.SerializationException
+import org.slf4j.LoggerFactory
+import java.lang.IllegalArgumentException
 
-fun Route.recipeRoutes() {
+private val logger = LoggerFactory.getLogger("RecipeController")
+
+fun Route.recipeRoutes(recipeService: RecipeService) {
     route("/recipes") {
         get {
-            val recipes = RecipeRepository.allRecipes()
+            val recipes = recipeService.getAllRecipes()
             call.respond(recipes)
         }
         get("/{id}") {
-            val id = call.parameters["id"]
-            if (id == null) {
-                call.respond(HttpStatusCode.BadRequest)
-                return@get
+            try {
+                val id = call.parameters["id"]
+                val recipe = recipeService.getRecipeById(id) ?: return@get call.respond(HttpStatusCode.NotFound)
+                call.respond(recipe)
+            } catch (e: IllegalArgumentException) {
+                logger.warn("Invalid recipe ID: ${e.message}")
+                call.respond(HttpStatusCode.BadRequest, mapOf("error" to e.message))
             }
-            val recipe = RecipeRepository.recipeById(id)
-            if (recipe == null) {
-                call.respond(HttpStatusCode.NotFound)
-                return@get
-            }
-            call.respond(recipe)
         }
 
         post {
             try {
                 val request = call.receive<Recipe>()
-                val newRecipe =
-                    request.copy(
-                        id = UUID.randomUUID().toString(),
-                        createdAt = LocalDateTime.now().toString(),
-                        updatedAt = LocalDateTime.now().toString(),
-                    )
-                RecipeRepository.addRecipe(newRecipe)
+                val newRecipe = recipeService.createRecipe(request)
                 call.respond(HttpStatusCode.Created, newRecipe)
             } catch (e: IllegalStateException) {
-                println("Illegal Argument")
-                e.printStackTrace()
+                logger.warn("Recipe validation failed: ${e.message}")
                 call.respond(HttpStatusCode.BadRequest)
             } catch (e: SerializationException) {
                 println("SERIALIZATION EXCEPTION")
@@ -60,7 +51,7 @@ fun Route.recipeRoutes() {
                 call.respond(HttpStatusCode.BadRequest)
                 return@delete
             }
-            if (RecipeRepository.removeRecipe(recipeId)) {
+            if (recipeService.deleteRecipe(recipeId)) {
                 call.respond(HttpStatusCode.NoContent)
             } else {
                 call.respond(HttpStatusCode.NotFound)

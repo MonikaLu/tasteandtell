@@ -1,7 +1,8 @@
 package com.example
 
 
-import com.example.routes.recipeRoutes
+import com.example.controllers.recipeRoutes
+import com.example.db.configureDatabases
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
@@ -20,8 +21,11 @@ fun Application.configureRouting() {
     }
 }
 
+
 fun Application.module() {
+   configureSerialization()
     configureRouting()
+    configureDatabases()
     install(ContentNegotiation) {
         json(Json {
             prettyPrint = true
