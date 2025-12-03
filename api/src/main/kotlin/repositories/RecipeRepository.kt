@@ -14,13 +14,14 @@ object RecipeRepository {
             coverImageUrl = "",
             ingredients = listOf(
                 Ingredient(
-                "1", "Bread", "testing"
-            )
+                    "1", "Bread", "testing",
+                    createdAt = "2024-1-2",
+                )
             ),
             instructions = listOf(
                 Instruction(
-                "1", 1, "test", "d"
-            )
+                    "1", 1, "test", "d"
+                )
             )
         ),
         Recipe(
@@ -31,7 +32,8 @@ object RecipeRepository {
             coverImageUrl = "",
             ingredients = listOf(
                 Ingredient(
-                    "1", "Bread", "testing"
+                    "1", "Bread", "testing",
+                    createdAt = "2024-1-2",
                 )
             ),
             instructions = listOf(
@@ -44,7 +46,7 @@ object RecipeRepository {
 
     fun allRecipes(): List<Recipe> = recipes
 
-    fun recipeById(id: String?): Recipe? = recipes.find{ it.id == id }
+    fun recipeById(id: String?): Recipe? = recipes.find { it.id == id }
 
     fun addRecipe(recipe: Recipe) {
         if (recipeById(recipe.id) != null) {

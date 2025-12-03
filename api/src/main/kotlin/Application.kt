@@ -1,8 +1,10 @@
 package com.example
 
 
-import com.example.controllers.recipeRoutes
+import com.example.controllers.ingredientRoutes
 import com.example.db.configureDatabases
+import com.example.repositories.IngredientRepository
+import com.example.services.IngredientService
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
@@ -15,15 +17,19 @@ fun main(args: Array<String>) {
 }
 
 fun Application.configureRouting() {
+    val ingredientRepository = IngredientRepository
+    val ingredientService = IngredientService(ingredientRepository)
+
     routing {
         staticResources("static", "static")
-        recipeRoutes()
+//        recipeRoutes()
+        ingredientRoutes(ingredientService)
     }
 }
 
 
 fun Application.module() {
-   configureSerialization()
+    configureSerialization()
     configureRouting()
     configureDatabases()
     install(ContentNegotiation) {

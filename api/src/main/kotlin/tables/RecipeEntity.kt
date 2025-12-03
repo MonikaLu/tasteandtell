@@ -1,10 +1,9 @@
-package com.example.entities
-import com.example.models.MealType
+package com.example.entityTables
+
 import org.jetbrains.exposed.sql.Table
-import java.time.LocalDateTime
 
 
-object RecipeEntity: Table() {
+object RecipeEntity : Table() {
 //    val id = integer("id").autoIncrement()
 //    val title = varchar("title", MAX_VARCHAR_LENGTH)
 //    val description = varchar("description", MAX_VARCHAR_LENGTH)
